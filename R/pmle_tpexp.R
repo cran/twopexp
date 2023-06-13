@@ -1,0 +1,34 @@
+#' Penalized maximum likelihood estimation for the two-parameter exponential dist.
+#'
+#' To estimate the location (or shift) and scale parameters for  the two-parameter exponential distribution
+#' based on penalized maximum likelihood method. See detail in \code{source}
+#'
+#' @param x       vector of quantile (or a data set).
+#' @param theta   location parameter, where \eqn{\theta > 0}.
+#' @param beta    scale parameter, where \eqn{\beta > 0} and \eqn{rate=1/\beta}.
+#'
+#' @return the estimate three values for the two-parameter exponential dist. as follows:
+#' \code{ptheta.hat}  gives the estimate location parameter,
+#' \code{pbeta.hat}   gives the estimate scale parameter,
+#' and \code{plamda.hat} gives the estimate the rate.
+#'
+#' @source Zheng, M. (2013). \emph{Penalized Maximum Likelihood Estimation of Two-Parameter Exponential Distributions [Master’s thesis]}.
+#'  \url{https://scse.d.umn.edu/sites/scse.d.umn.edu/files/mengjie-thesis_masters-1.pdf}
+#'
+#' @export
+#'
+#' @examples
+#' x1 <- c(25,43,53,65,76,86,95,115,132,150) # test a data set
+#' pmle_tpexp(x1)
+#' x2 <- c(20,15,10,25,35,30,40,70,50,60,90,100,80,5) # test a data set
+#' pmle_tpexp(x2)
+#'
+pmle_tpexp <- function(x,theta=0,beta=1){
+  xs <- sort(x)
+  n <- length(xs)
+  ptheta.hat <- (n*xs[1]-mean(xs))/(n-1)
+  pbeta.hat <- (sum(xs)-n*xs[1])/(n-1)
+  plamda.hat <- 1/pbeta.hat
+  return(c(ptheta.hat,pbeta.hat,plamda.hat))
+}
+
